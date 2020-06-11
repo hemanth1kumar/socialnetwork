@@ -1,8 +1,18 @@
 import React, { useState } from "react";
 
-import { Link } from "react-router-dom";
+import { Link, Redirect } from "react-router-dom";
 
-function Register(props) {
+import { connect } from "react-redux";
+
+import { setAlert } from "../../actions/alert";
+
+import { register } from "../../actions/auth";
+
+import { PASSWORD_MISMATCH } from "../../messages";
+
+import PropTypes from "prop-types";
+
+function Register({ setAlert, register, isAuthenticated }) {
    const [formData, setFormData] = useState({
       name: "",
       email: "",
@@ -17,9 +27,19 @@ function Register(props) {
       setFormData({ ...formData, [name]: value });
    };
 
-   const onSubmit = (e) => {
+   const onSubmit = async (e) => {
       e.preventDefault();
+
+      if (password !== password2) {
+         setAlert(PASSWORD_MISMATCH, "danger");
+      } else {
+         register({ name, email, password });
+      }
    };
+
+   if (isAuthenticated) {
+      return <Redirect to="/dashboard" />;
+   }
 
    return (
       <>
@@ -86,4 +106,14 @@ function Register(props) {
    );
 }
 
-export default Register;
+Register.propTypes = {
+   setAlert: PropTypes.func.isRequired,
+   register: PropTypes.func.isRequired,
+   isAuthenticated: PropTypes.bool,
+};
+
+const mapStateToProps = (state) => ({
+   isAuthenticated: state.auth.isAuthenticated,
+});
+
+export default connect(mapStateToProps, { setAlert, register })(Register);
