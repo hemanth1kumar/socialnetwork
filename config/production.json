@@ -1,0 +1,6 @@
+{
+	"mongoURI": "mongodb+srv://admin:Hem1234@cluster0-cp5ir.mongodb.net/social?retryWrites=true&w=majority",
+	"jwtToken": "secretToken",
+	"githubClientId": "Iv1.47d2d78543c146bd",
+	"githubClientSecret": "38c0b73b5f6d70066a233889d956d49eef4dcdfe"
+}

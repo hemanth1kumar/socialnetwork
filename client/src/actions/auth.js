@@ -6,6 +6,7 @@ import {
    USER_LOADED,
    AUTH_ERROR,
    LOGOUT,
+   CLEAR_PROFILE,
 } from "./types";
 
 import { REGISTRATION_SUCCESSFULL, LOGIN_SUCCESSSFULL } from "../messages";
@@ -23,6 +24,8 @@ export const loadUser = () => async (dispatch) => {
 
    try {
       const res = await axios.get("/api/auth");
+
+      // console.log("load user response", res.data);
 
       dispatch({
          type: USER_LOADED,
@@ -80,6 +83,7 @@ export const login = (email, password) => async (dispatch) => {
 
    try {
       const res = await axios.post("/api/auth", body, config);
+      console.log("login response", res.data);
 
       dispatch({
          type: LOGIN_SUCCESS,
@@ -104,5 +108,6 @@ export const login = (email, password) => async (dispatch) => {
 };
 
 export const logout = () => (dispatch) => {
+   dispatch({ type: CLEAR_PROFILE });
    dispatch({ type: LOGOUT });
 };
